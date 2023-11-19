@@ -444,10 +444,11 @@ instance.prototype.build_strips = function () {
 		case 'fader':
 			newOpts =  {
 				type:	'number',
+				tooltip: 'Set fader dB level.\n-90 = -oo dB (min), 0 = 0db (unity), 10 = +10db (max)',
 				label:	'Fader Level',
 				id:		'fad',
 				default: 0.0,
-				min: -144,
+				min: -90,
 				max: 10
 			};
 		case 'fader_a':
@@ -455,7 +456,7 @@ instance.prototype.build_strips = function () {
 				newOpts = {
 					type:	 'number',
 					tooltip: 'Adjust fader +/- percent.\n0% = -oo, 75% = 0db, 100% = +10db',
-					label:	 'Adjust',
+					label:	 'Fader Position',
 					id:		 'ticks',
 					min:	 -100,
 					max:	 100,
@@ -783,10 +784,11 @@ instance.prototype.build_strips = function () {
 			case 'lvl':
 				newOpts =  {
 					type:	'number',
+					tooltip: 'Set fader dB level.\n-90 = -oo dB (min), 0 = 0db (unity), 10 = +10db (max)',
 					label:	'Level',
 					id:		'fad',
 					default: 0.0,
-					min: -144,
+					min: -90,
 					max: 10
 				};
 				// no break
@@ -795,7 +797,7 @@ instance.prototype.build_strips = function () {
 					newOpts = {
 						type:	 'number',
 						tooltip: 'Adjust level +/- percent.\n0% = -oo, 75% = 0db, 100% = +10db',
-						label:	 'Adjust',
+						label:	 'Fader Position',
 						id:		 'ticks',
 						min:	 -100,
 						max:	 100,
@@ -1247,7 +1249,7 @@ instance.prototype.stepsToFader = function (i, steps) {
 
 instance.prototype.faderToDB = function ( f, asString ) {
 // “f” represents OSC float data. f: [0.0, 1.0]
-// “d” represents the dB float data. d:[-oo, +10]
+// “d” represents the dB float data. d:[-90, +10]
 
 	// float Lin2db(float lin) {
 	// 	if (lin <= 0.0) return -144.0;
@@ -1262,7 +1264,7 @@ instance.prototype.faderToDB = function ( f, asString ) {
 	var steps = self.FADER_STEPS;
 
 	if (f <= 0.0) {
-		d = -144;
+		d = -90;
 	} else if (f < 0.062561095) {
 		d = (f - 0.1875) * 30.0 / 0.0625;
 	} else if (f < 0.250244379) {
@@ -1285,7 +1287,7 @@ instance.prototype.faderToDB = function ( f, asString ) {
 };
 
 instance.prototype.dbToFloat = function ( d ) {
-	// “d” represents the dB float data. d:[-144, +10]
+	// “d” represents the dB float data. d:[-90, +10]
 	// “f” represents OSC float data. f: [0.0, 1.0]
 	var f = 0;
 
